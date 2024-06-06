@@ -5,6 +5,8 @@ from colorama import init, Fore
 from scapy.all import ARP, Ether, srp
 import dns.resolver
 from datetime import datetime
+import geoip2.database
+from geoip import geolite2
 init()
 
 green_text = """
@@ -28,12 +30,12 @@ else:
 
 print(Fore.LIGHTYELLOW_EX + """1. Get All connected on Wifi
 2. Subdomain detector
-3. XSS Scanner (not implemented)
-4. Get Location By IP Address (not implemented)""")
+3. XSS Scanner
+4. Get Location By IP Address""")
 CHOOSE = input(Fore.CYAN + 'Choice (1 or 2 or 3 or 4) > ')
 
 def scan_network(ip_range):
-    print(Fore.GREEN + "Note: Install Npcap first ):")
+    print(Fore.GREEN + "Note: Install WinPcap first ):")
     arp = ARP(pdst=ip_range)
     ether = Ether(dst="ff:ff:ff:ff:ff:ff")
     packet = ether/arp
@@ -74,7 +76,7 @@ if CHOOSE == '1':
     exit = input('Exit -> ')
     sys.exit()
 elif CHOOSE == '2':
-    domain = input("Enter the domain to scan for subdomains (e.g., example.com): ")
+    domain = input("Enter the domain to scan for subdomains (e.g., example.com) -> ")
     print(Fore.WHITE + '='* 40)
     print(Fore.WHITE+ f'Scanning Target --> {domain}')
     print(Fore.WHITE + f"Scanning Started at --> {str(datetime.now())}")
@@ -91,6 +93,9 @@ elif CHOOSE == '2':
         print("No subdomains found.")
         exit = input('Exit -> ')
         sys.exit()
-
-else:
-    print(Fore.RED + "Invalid choice or not implemented yet.")
+elif CHOOSE == '3':
+    print("hello world")
+elif CHOOSE == '4':
+    ip = input('Enter ip > ')
+    loactor = geolite2.lookup(ip_addr=ip)
+    print(loactor)
